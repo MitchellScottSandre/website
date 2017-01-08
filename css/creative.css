@@ -24,9 +24,9 @@ a {
   color: #F05F40;
 }
 a:hover,
-a:focus {
-  color: #eb3812;
-}
+/*a:focus {*/
+  /*color: #B6B6B6;*/
+/*}*/
 h1 {
   color:white;
 }
@@ -567,6 +567,11 @@ fieldset[disabled] .btn-primary.active {
 .btn-xl {
   padding: 15px 30px;
 }
+
+.btn-md {
+  padding: 15px 40px;
+}
+
 ::-moz-selection {
   color: white;
   text-shadow: none;
