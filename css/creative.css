@@ -253,7 +253,8 @@ header {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url('../img/background/background_7.jpg');
+  background-image: url("https://static.pexels.com/photos/89955/pexels-photo-89955.jpeg");
+  /*background-image: url('../img/background/background_9.jpg');*/
   text-align: center;
   color: white;
 }
