@@ -1,3 +1,17 @@
+/* Materialize was not a good choice.. do this to set section heights*/
+@media screen and (max-width: 340px) { /*Iphone 5*/
+    #experience{ height: 190vh; }
+}
+@media screen and (min-width: 341px) and (max-width: 400px) { /*Iphone 6*/
+    #aboutMe{ height: 145vh; }
+    #skills{ height: 170vh; }
+    #experience{ height: 195vh; }
+    #projects{ height: 100vh; }
+}
+
+section {
+    /*min-height: 100vh;*/
+}
 
 .primary1 {
     background-color: #03A9F4;
