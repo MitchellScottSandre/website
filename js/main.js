@@ -4,15 +4,25 @@
 $(document).ready(function(){
 
     // ScrollSpy
-    $('.scrollspy').scrollSpy();
+    $('.scrollspy').scrollSpy({
+        scrollOffset: $('#aboutMe .row-heading').height()
+    });
 
     // Parralax
     $('.parallax').parallax();
 
+    // Add rotating text
+    var descriptions = ["Software Engineer", "Full Stack Developer", "Java Wizard", "Web Developer", "iOS Developer"];
+    for (var i = 0; i < 40; i++){
+        $('#rotatingText').append(
+            '<li style="visibility: hidden;">' + descriptions[i % descriptions.length] + '</li>'
+        );
+    }
+
     // Title Textulate animations
     $('.tlt_1').textillate();
     $('.tlt_2').textillate({
-        initialDelay: 0,
+        initialDelay: 3,
         minDisplayTime: 5,
         in: { effect: 'fadeInUp', sync: true },
         out: { effect: 'fadeOutUp', sync: true},
@@ -22,18 +32,14 @@ $(document).ready(function(){
     // Load Particle JS
     particlesJS("particles-js", particleData);
 
-    $('#descriptionWord').text("sdfsdf");
-
     // Toggle Nav Overlay
     $("#overlayToggler").on("click", function(){
         $(this).toggleClass('open');
         $('.tlt_4').textillate();
-        // tlt4.textillate('start');
         $("body").toggleClass("bodyBlurred");
 
         if ($(this).attr("class").indexOf("open") != -1){
             $('#navOverlay').css({
-                // "width"          :"100%",
                 "display"        : "block"
             });
 
@@ -44,25 +50,48 @@ $(document).ready(function(){
         }
     });
 
-    // Navbar Transparency
+    // Close the overlay when an a item is clicked
+    $(".overlay-content a").on("click", function(){
+        $("#overlayToggler").toggleClass('open');
+        $('.tlt_4').textillate();
+        $("body").toggleClass("bodyBlurred");
+
+        if ($("#overlayToggler").attr("class").indexOf("open") != -1){
+            $('#navOverlay').css({
+                "display"        : "block"
+            });
+
+        } else {
+            $('#navOverlay').css({
+                "display": "none"
+            });
+        }
+    });
+
+    // ON SCROLL
     $(document).on('scroll', function (e) {
+        // Navbar Transparency
         e.preventDefault();
         var o = $(document).scrollTop() / 500;
-        // console.log(o);
         if (o > 1.000) { o = 1;}
         var e = $('nav');
         $('nav').not('a').css('background-color', 'rgba(3, 169, 244,' + o + ')');
         $('.brand-logo').css('opacity', o);
         if (o == 0){
-            // $('nav').prop("class", "z-depth-0");
             $('.navLabel').css('color', 'black');
             $('#overlayToggler span').css('background', 'black');
         } else {
-            // $('nav').prop("class", "z-depth-2");
             $('.navLabel').css('color', 'white');
             $('#overlayToggler span').css('background', 'white');
         }
-        // $('a').css('color', 'rgb(' + colorHue + ',' + colorHue + ',' + colorHue + ')');
+
+        // Check if at the bottom of the page, set Resume/Contact to active
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            $('.nav4').removeClass('active');
+            $('.nav5').addClass('active');
+        } else {
+            $('.nav5').removeClass('active');
+        }
     });
 
     // Add all the skills stars for skill cards
@@ -73,6 +102,7 @@ $(document).ready(function(){
         }
     });
 
+    // Add colour to timeline circle on hover
     $('.cd-timeline-content').mouseenter(function(){
         $(this).addClass("z-depth-5");
         $(this).siblings('.cd-timeline-img').css('background-color', '#FF5252');
@@ -82,19 +112,13 @@ $(document).ready(function(){
         $(this).siblings('.cd-timeline-img').css('background-color', 'white');
     });
 
-    $('.showMore').on("click", function(){
-        $(this).closest('.showMoreSection').find('.more').slideToggle();
+    // Add depth affect to projectCards on hover
+    $('.projectCard').mouseenter(function() {
+        $(this).addClass("z-depth-5");
     });
 
-
-    // Set timeline line height on load and on change
-    var timelineLineHeight = $('#timelineIcon_2').offset().top - $('#timelineIcon_1').offset().top;
-    $('#cd-timeline').css('height', timelineLineHeight + "px");
-    $( window ).resize(function() {
-
-        //Fix timeline line height
-        var timelineLineHeight2 = $('#timelineIcon_2').offset().top - $('#timelineIcon_1').offset().top;
-        $('#cd-timeline').css('height', timelineLineHeight2 + "px");
+    $('.projectCard').mouseleave(function() {
+        $(this).removeClass("z-depth-5");
     });
 
     // W3 Schools Slide Animation
@@ -126,6 +150,7 @@ $(document).ready(function(){
                 { queue: false, duration: 'slow' }
             );
     });
+
     $('#resumeRow').mouseleave(function() {
         $(this).find("#resumeIcon")
             .css('opacity', 1)
@@ -143,17 +168,40 @@ $(document).ready(function(){
             );
     });
 
-    // Animate bouncing ball for RocketBall
+    // Set timeline line height on load and on change
+    var timelineLineHeight = $('#timelineIcon_2').offset().top - $('#timelineIcon_1').offset().top;
+    $('#cd-timeline').css('height', timelineLineHeight + "px");
+
+    // Declare variables for bouncing ball canvas
     var canvas = $('#bouncingBallCanvas');
     var c = canvas.get(0).getContext("2d");
     c.width = Math.min($('#rocketBallCard').width() - 2, $('#bouncingBallCanvas').width() - 2);
-
     var container = {
         x: 0,
         y: 0,
         width: c.width,
         height: 150
     };
+
+    // ON RESIZE
+    $( window ).resize(function() {
+        //Fix timeline line height
+        var timelineLineHeight2 = $('#timelineIcon_2').offset().top - $('#timelineIcon_1').offset().top;
+        $('#cd-timeline').css('height', timelineLineHeight2 + "px");
+
+        //Canvas
+        canvas = $('#bouncingBallCanvas');
+        c = canvas.get(0).getContext("2d");
+        c.width = Math.min($('#rocketBallCard').width() - 2, $('#bouncingBallCanvas').width() - 2);
+        canvas.width(c.width);
+        container = {
+            x: 0,
+            y: 0,
+            width: c.width,
+            height: 150
+        };
+    });
+
     var circle = {
         x: 50,
         y: 50,
